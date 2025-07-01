@@ -1,0 +1,45 @@
+# .github/workflows/build.yml
+
+name: Build Project
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events for the main branch
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    # This job runs on a Windows virtual machine.
+    # We use windows-2019 specifically because it includes the Visual Studio 2010 (v100) build tools,
+    # which are required by this project. The newer 'windows-latest' (windows-2022) does not.
+    runs-on: windows-2022
+
+    steps:
+      # 1. Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x86  
+
+      # 2. Set up the Visual Studio 2010 environment and build the solution
+      - name: Build with MSBuild (VS 2010)
+        run: |
+          msbuild Neverhood-patch.sln /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143
+        shell: cmd
+
+      # 3. Upload the build artifacts
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          # Name of the artifact to be uploaded. This will appear in the workflow run summary.
+          name: neverhood-patch-build
+          # Path to the files to upload. The project files specify the output is in the 'bin' directory.
+          # This will upload ddraw.dll and nvhpatch.dll.
+          path: bin/
