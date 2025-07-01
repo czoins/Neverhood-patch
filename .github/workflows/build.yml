@@ -31,7 +31,7 @@ jobs:
       # 2. Set up the Visual Studio 2010 environment and build the solution
       - name: Build with MSBuild (VS 2010)
         run: |
-          msbuild Neverhood-patch.sln /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /p:ClCompile_AdditionalOptions="/Zc:sizedDealloc- %(AdditionalOptions)"
+          msbuild Neverhood-patch.sln /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /p:AdditionalOptions="/Zc:sizedDealloc-"
         shell: cmd
 
       # 3. Upload the build artifacts
