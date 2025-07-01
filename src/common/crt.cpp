@@ -154,6 +154,7 @@ void * __cdecl memcpy(void * des, const void * src, size_t len)
 
 // ----------------------------------------------------------------------------
 
+#pragma function(memmove)
 void * __cdecl memmove(void * des, const void * src, size_t len)
 {
 #if defined (_M_IX86)
