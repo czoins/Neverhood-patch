@@ -51,6 +51,22 @@ void __cdecl operator delete[](void* p)
 }
 
 // ----------------------------------------------------------------------------
+// Sized deallocation operators (C++14)
+// ----------------------------------------------------------------------------
+
+void __cdecl operator delete(void * p, size_t) noexcept
+{
+  HeapFree(GetProcessHeap(), 0, p);
+}
+
+// ----------------------------------------------------------------------------
+
+void __cdecl operator delete[](void* p, size_t) noexcept
+{
+  operator delete(p);
+}
+
+// ----------------------------------------------------------------------------
 
 
 
